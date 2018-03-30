@@ -76,3 +76,4 @@ build.sh
 /public/livechat
 .history
 runTest.sh
+**/runLocalMeteorEnv.sh
