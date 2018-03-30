@@ -1,5 +1,6 @@
 **/bin/**
 **/build/*
+**/bundle/*
 **/node_modules/*
 **/tmp/*
 **/.meteor/dev_bundle
@@ -74,3 +75,4 @@ settings.json
 build.sh
 /public/livechat
 .history
+runTest.sh
