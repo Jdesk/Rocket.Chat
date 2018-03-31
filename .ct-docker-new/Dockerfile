@@ -1,4 +1,4 @@
-FROM rocketchat/base:8
+FROM node:carbon-wheezy
 RUN apt-get update
 RUN apt-get install build-essential -y
 RUN apt-get install git -y
@@ -9,7 +9,7 @@ ENV METEOR_ALLOW_SUPERUSER true
 
 RUN curl https://install.meteor.com/ | sh
 ENV RC_VERSION 0.63.0-develop
-
+#RUN npm update -g npm
 MAINTAINER buildmaster@rocket.chat
 RUN mkdir build
 ADD . /build/
