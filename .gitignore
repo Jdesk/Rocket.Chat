@@ -77,3 +77,4 @@ build.sh
 .history
 runTest.sh
 **/runLocalMeteorEnv.sh
+rocket.chat.tar.gz
