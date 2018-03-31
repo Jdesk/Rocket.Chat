@@ -20,7 +20,7 @@ RUN ./ct-build.sh
 RUN cd /app/bundle/programs/server \
  && npm install \
  && npm cache clear --force \
- && chown -R rocketchat:rocketchat /app && chown -Rh rocketchat /app/.meteor/local
+ && chown -R rocketchat:rocketchat /app 
 
 #USER rocketchat
 
