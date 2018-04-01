@@ -14,14 +14,22 @@ MAINTAINER buildmaster@rocket.chat
 RUN mkdir build
 ADD . /build/
 WORKDIR /build
+RUN rm -fr node_modules
+RUN meteor npm install
+RUN meteor npm rebuild
 RUN chmod +x ./ct-build.sh
 RUN ./ct-build.sh
+
+WORKDIR /app/bundle
+RUN rm -fr programs/server/npm/node_modules/sharp
+WORKDIR programs/server/npm
+RUN npm install sharp less cas
 
 RUN cd /app/bundle/programs/server \
  && npm install \
  && npm cache clear --force \
- && chown -R rocketchat:rocketchat /app 
-
+ && meteor npm install \
+ && meteor npm rebuild 
 #USER rocketchat
 
 VOLUME /app/uploads
@@ -37,6 +45,8 @@ ENV DEPLOY_METHOD=docker \
     ROOT_URL=http://localhost:3000 \
     Accounts_AvatarStorePath=/app/uploads
 
+
+WORKDIR /app/bundle
 EXPOSE 3000
 
 CMD ["node", "main.js"]

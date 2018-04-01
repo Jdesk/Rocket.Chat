@@ -2,7 +2,7 @@ import {UploadFS} from 'meteor/jalik:ufs';
 import _ from 'underscore';
 import S3 from 'aws-sdk/clients/s3';
 import stream from 'stream';
-
+import mime from 'mime-type/with-db';
 /**
  * AmazonS3 store
  * @param options
@@ -134,11 +134,18 @@ export class AmazonS3Store extends UploadFS.Store {
 				}
 			});
 
+			const ext = mime.extension(file.type);
+			let name = file.name;
+			if (ext && file.name.toUpperCase().endsWith(ext.toUpperCase())) {
+				name = `${ name }.${ ext }`;
+			} else if (file.type) {
+				name = `${ name }.${ file.type.split('/')[1] }`;
+			}
 			s3.putObject({
 				Key: this.getPath(file),
 				Body: writeStream,
 				ContentType: file.type,
-				ContentDisposition: `inline; filename="${ encodeURI(file.name) }"`
+				ContentDisposition: `inline; filename="${ encodeURI(name) }"`
 
 			}, (error) => {
 				if (error) {
