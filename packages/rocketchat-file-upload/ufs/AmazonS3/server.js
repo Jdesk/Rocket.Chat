@@ -135,7 +135,7 @@ export class AmazonS3Store extends UploadFS.Store {
 			});
 			let name = file.name;
 			try {
-				console.log(JSON.stringify(file, null, 2));
+				// console.log(JSON.stringify(file, null, 2));
 				const ext = mime.extension(file.type);
 				if (ext && file.name && !file.name.toUpperCase().endsWith(ext.toUpperCase())) {
 					name = `${ name }.${ ext }`;
