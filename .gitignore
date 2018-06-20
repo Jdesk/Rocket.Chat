@@ -75,3 +75,9 @@ settings.json
 build.sh
 /public/livechat
 packages/rocketchat-i18n/i18n/livechat.*
+build.sh
+/public/livechat
+.history
+runTest.sh
+**/runLocalMeteorEnv.sh
+rocket.chat.tar.gz
