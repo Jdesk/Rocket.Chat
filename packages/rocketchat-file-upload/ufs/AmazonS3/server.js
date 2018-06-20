@@ -2,7 +2,7 @@ import {UploadFS} from 'meteor/jalik:ufs';
 import _ from 'underscore';
 import S3 from 'aws-sdk/clients/s3';
 import stream from 'stream';
-
+import mime from 'mime-type/with-db';
 /**
  * AmazonS3 store
  * @param options
@@ -133,20 +133,33 @@ export class AmazonS3Store extends UploadFS.Store {
 					});
 				}
 			});
-
-			s3.putObject({
-				Key: this.getPath(file),
-				Body: writeStream,
-				ContentType: file.type,
-				ContentDisposition: `inline; filename="${ encodeURI(file.name) }"`
-
-			}, (error) => {
-				if (error) {
-					console.error(error);
+			let name = file.name;
+			try {
+				// console.log(JSON.stringify(file, null, 2));
+				const ext = mime.extension(file.type);
+				if (ext && file.name && !file.name.toUpperCase().endsWith(ext.toUpperCase())) {
+					name = `${ name }.${ ext }`;
+				} else if (file.type && file.type.split('/').length > 0 && file.name && !file.name.toUpperCase().endsWith(ext.toUpperCase())) {
+					name = `${ name }.${ file.type.split('/')[1] }`;
 				}
 
+				s3.putObject({
+					Key: this.getPath(file),
+					Body: writeStream,
+					ContentType: file.type,
+					ContentDisposition: `inline; filename="${ encodeURI(name) }"`
+				}, (error) => {
+					if (error) {
+						console.error(error);
+					}
+					writeStream.emit('real_finish');
+				});
+
+			} catch (e) {
+				console.error(e);
 				writeStream.emit('real_finish');
-			});
+			}
+
 
 			return writeStream;
 		};

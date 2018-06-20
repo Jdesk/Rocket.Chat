@@ -92,7 +92,7 @@ Object.assign(FileUpload, {
 		// Get metadata to resize the image the first time to keep "inside" the dimensions
 		// then resize again to create the canvas around
 		s.metadata(Meteor.bindEnvironment((err, metadata) => {
-			s.toFormat(sharp.format.jpeg)
+			s.toFormat(sharp.format.png)
 				.resize(Math.min(height, metadata.width), Math.min(height, metadata.height))
 				.pipe(sharp()
 					.resize(height, height)
@@ -125,7 +125,7 @@ Object.assign(FileUpload, {
 		const transformer = sharp()
 			.resize(32, 32)
 			.max()
-			.jpeg()
+			.png()
 			.blur();
 		const result = transformer.toBuffer().then((out) => out.toString('base64'));
 		image.pipe(transformer);

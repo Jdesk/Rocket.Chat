@@ -142,7 +142,7 @@ Accounts.onCreateUser(function(options, user = {}) {
 		}
 	}
 
-	if (!user.active) {
+	if (!user.active && RocketChat.settings.get('Accounts_SendInactiveCreationNotification')) {
 		const destinations = [];
 
 		RocketChat.models.Roles.findUsersInRole('admin').forEach(adminUser => {

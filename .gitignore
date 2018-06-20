@@ -1,5 +1,6 @@
 **/bin/**
 **/build/*
+**/bundle/*
 **/node_modules/*
 **/tmp/*
 **/.meteor/.id
@@ -72,8 +73,6 @@ tramp
 ecosystem.json
 pm2.json
 settings.json
-build.sh
-/public/livechat
 packages/rocketchat-i18n/i18n/livechat.*
 build.sh
 /public/livechat
